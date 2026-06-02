@@ -1,0 +1,98 @@
+// GitPortal Crypto Tracker - Prisma Schema
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  passwordHash String
+  portfolio    Portfolio[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Portfolio {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coinId      String
+  coinSymbol  String
+  coinName    String
+  quantity    Float
+  avgBuyPrice Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, coinId])
+  @@index([userId])
+}
+
+model PriceHistory {
+  id        String   @id @default(cuid())
+  coinId    String
+  price     Float
+  marketCap Float?
+  volume    Float?
+  timestamp DateTime @default(now())
+
+  @@index([coinId, timestamp])
+}
+
+model Signal {
+  id         String   @id @default(cuid())
+  coinId     String
+  coinSymbol String
+  signal     String // BUY, SELL, HOLD
+  confidence Float  @default(0)
+  price      Float
+  model      String
+  features   Json
+  createdAt  DateTime @default(now())
+
+  @@index([coinId, createdAt])
+}
+
+model NewsArticle {
+  id          String   @id @default(cuid())
+  title       String
+  content     String?
+  source      String
+  url         String   @unique
+  coinIds     String[]
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([publishedAt])
+}
+
+model SentimentScore {
+  id        String   @id @default(cuid())
+  source    String // twitter, reddit, news
+  content   String
+  sentiment String // positive, negative, neutral
+  score     Float
+  coinIds   String[]
+  createdAt DateTime @default(now())
+
+  @@index([coinIds, createdAt])
+}
+
+model OnChainData {
+  id           String    @id @default(cuid())
+  chain        String // ethereum, bitcoin
+  address      String
+  balance      Float?
+  txCount      Int?
+  lastActivity DateTime?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

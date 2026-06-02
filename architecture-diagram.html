@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitPortal Crypto AI Tracker — Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #020617;
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.875rem; margin-left: 1.75rem; }
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 1rem;
+      border: 1px solid #1e293b;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+    svg { width: 100%; min-width: 1100px; display: block; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1.25rem;
+    }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.cyan { background: #22d3ee; }
+    .card-dot.emerald { background: #34d399; }
+    .card-dot.violet { background: #a78bfa; }
+    .card-dot.amber { background: #fbbf24; }
+    .card-dot.rose { background: #fb7185; }
+    .card-dot.orange { background: #fb923c; }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card ul { list-style: none; color: #94a3b8; font-size: 0.75rem; }
+    .card li { margin-bottom: 0.375rem; }
+    .footer { text-align: center; margin-top: 1.5rem; color: #475569; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>GitPortal Crypto AI Tracker — Architecture</h1>
+      </div>
+      <p class="subtitle">Full-stack crypto intelligence platform: real-time prices, AI trading signals, sentiment analysis, and on-chain analytics</p>
+    </div>
+
+    <!-- Main Diagram -->
+    <div class="diagram-container">
+      <svg viewBox="0 0 1200 820">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee" />
+          </marker>
+          <marker id="arrow-emerald" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#34d399" />
+          </marker>
+          <marker id="arrow-violet" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa" />
+          </marker>
+          <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24" />
+          </marker>
+          <marker id="arrow-slate" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background Grid -->
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- ============================================================
+             LAYER 1: FRONTEND (User Browser)
+             ============================================================ -->
+
+        <!-- Frontend Boundary -->
+        <rect x="20" y="20" width="1160" height="180" rx="12" fill="rgba(8, 51, 68, 0.08)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="32" y="38" fill="#22d3ee" font-size="10" font-weight="600">FRONTEND — Next.js + React + Tailwind CSS</text>
+
+        <!-- User Browser -->
+        <rect x="40" y="50" width="110" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="95" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">User Browser</text>
+        <text x="95" y="88" fill="#94a3b8" font-size="9" text-anchor="middle">Desktop / Mobile</text>
+
+        <!-- Page: Dashboard -->
+        <rect x="200" y="50" width="130" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="265" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">Dashboard</text>
+        <text x="265" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">Overview + Market Summary</text>
+
+        <!-- Page: Portfolio -->
+        <rect x="350" y="50" width="130" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="415" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">Portfolio</text>
+        <text x="415" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">Holdings + P&L Tracking</text>
+
+        <!-- Page: AI Signals -->
+        <rect x="500" y="50" width="130" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="565" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">AI Signals</text>
+        <text x="565" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">Buy/Sell Predictions</text>
+
+        <!-- Page: News & Sentiment -->
+        <rect x="650" y="50" width="140" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="720" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">News & Sentiment</text>
+        <text x="720" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">Crypto News + Social Feed</text>
+
+        <!-- Page: On-chain Analytics -->
+        <rect x="810" y="50" width="150" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="885" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">On-chain Analytics</text>
+        <text x="885" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">Blockchain Data Explorer</text>
+
+        <!-- Settings -->
+        <rect x="990" y="50" width="110" height="50" rx="6" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="1045" y="72" fill="white" font-size="11" font-weight="600" text-anchor="middle">Settings</text>
+        <text x="1045" y="88" fill="#22d3ee" font-size="8" text-anchor="middle">User Preferences</text>
+
+        <!-- Auth Badge -->
+        <rect x="40" y="130" width="120" height="40" rx="6" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1.5"/>
+        <text x="100" y="150" fill="white" font-size="10" font-weight="600" text-anchor="middle">🔐 NextAuth.js</text>
+        <text x="100" y="162" fill="#fb7185" font-size="8" text-anchor="middle">Session + JWT</text>
+
+        <!-- TanStack Query -->
+        <rect x="190" y="130" width="140" height="40" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="260" y="150" fill="white" font-size="10" font-weight="600" text-anchor="middle">TanStack Query</text>
+        <text x="260" y="162" fill="#34d399" font-size="8" text-anchor="middle">Data Fetching + Cache</text>
+
+        <!-- WebSocket -->
+        <rect x="350" y="130" width="130" height="40" rx="6" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="415" y="150" fill="white" font-size="10" font-weight="600" text-anchor="middle">WebSocket</text>
+        <text x="415" y="162" fill="#fb923c" font-size="8" text-anchor="middle">Real-time Price Feed</text>
+
+        <!-- Chart Library -->
+        <rect x="500" y="130" width="130" height="40" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="565" y="150" fill="white" font-size="10" font-weight="600" text-anchor="middle">Recharts / TradingView</text>
+        <text x="565" y="162" fill="#a78bfa" font-size="8" text-anchor="middle">Charts + Indicators</text>
+
+        <!-- Arrow: User → Frontend -->
+        <line x1="150" y1="75" x2="198" y2="75" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrow-cyan)"/>
+        <text x="174" y="69" fill="#94a3b8" font-size="8" text-anchor="middle">HTTPS</text>
+
+        <!-- Arrow: Frontend → API -->
+        <line x1="600" y1="170" x2="600" y2="238" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrow-emerald)"/>
+        <text x="615" y="210" fill="#94a3b8" font-size="8">REST + WS</text>
+
+        <!-- ============================================================
+             LAYER 2: BACKEND (Next.js API Routes)
+             ============================================================ -->
+
+        <!-- Backend Boundary -->
+        <rect x="20" y="240" width="1160" height="150" rx="12" fill="rgba(6, 78, 59, 0.08)" stroke="#34d399" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="32" y="258" fill="#34d399" font-size="10" font-weight="600">BACKEND — Next.js API Routes</text>
+
+        <!-- API: /api/prices -->
+        <rect x="40" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="100" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/prices</text>
+        <text x="100" y="308" fill="#34d399" font-size="8" text-anchor="middle">CoinGecko + Binance</text>
+
+        <!-- API: /api/portfolio -->
+        <rect x="180" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="240" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/portfolio</text>
+        <text x="240" y="308" fill="#34d399" font-size="8" text-anchor="middle">Holdings CRUD</text>
+
+        <!-- API: /api/signals -->
+        <rect x="320" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="380" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/signals</text>
+        <text x="380" y="308" fill="#34d399" font-size="8" text-anchor="middle">AI Predictions</text>
+
+        <!-- API: /api/news -->
+        <rect x="460" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="520" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/news</text>
+        <text x="520" y="308" fill="#34d399" font-size="8" text-anchor="middle">News Aggregator</text>
+
+        <!-- API: /api/sentiment -->
+        <rect x="600" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="660" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/sentiment</text>
+        <text x="660" y="308" fill="#34d399" font-size="8" text-anchor="middle">Social Analysis</text>
+
+        <!-- API: /api/onchain -->
+        <rect x="740" y="270" width="120" height="50" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="800" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/onchain</text>
+        <text x="800" y="308" fill="#34d399" font-size="8" text-anchor="middle">Blockchain Data</text>
+
+        <!-- API: /api/auth -->
+        <rect x="880" y="270" width="120" height="50" rx="6" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1.5"/>
+        <text x="940" y="292" fill="white" font-size="11" font-weight="600" text-anchor="middle">/api/auth</text>
+        <text x="940" y="308" fill="#fb7185" font-size="8" text-anchor="middle">Auth Endpoints</text>
+
+        <!-- Middleware Layer -->
+        <rect x="40" y="335" width="200" height="35" rx="6" fill="rgba(251, 191, 36, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="140" y="357" fill="white" font-size="10" font-weight="600" text-anchor="middle">Middleware: Rate Limit + CORS + Validation</text>
+
+        <!-- Utility Layer -->
+        <rect x="260" y="335" width="200" height="35" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="360" y="357" fill="white" font-size="10" font-weight="600" text-anchor="middle">Utils: Prisma Client + Zod Schemas</text>
+
+        <!-- Scheduler -->
+        <rect x="480" y="335" width="200" height="35" rx="6" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="580" y="357" fill="white" font-size="10" font-weight="600" text-anchor="middle">Cron Jobs: Price Sync + Signal Retrain</text>
+
+        <!-- ============================================================
+             LAYER 3: EXTERNAL SERVICES
+             ============================================================ -->
+
+        <!-- External APIs Boundary -->
+        <rect x="20" y="440" width="380" height="180" rx="12" fill="rgba(30, 41, 59, 0.08)" stroke="#94a3b8" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="32" y="458" fill="#94a3b8" font-size="10" font-weight="600">EXTERNAL APIs</text>
+
+        <!-- CoinGecko -->
+        <rect x="40" y="470" width="110" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="95" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">CoinGecko</text>
+        <text x="95" y="508" fill="#94a3b8" font-size="8" text-anchor="middle">Free Price API</text>
+
+        <!-- Binance -->
+        <rect x="170" y="470" width="110" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="225" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">Binance</text>
+        <text x="225" y="508" fill="#94a3b8" font-size="8" text-anchor="middle">WebSocket Streams</text>
+
+        <!-- CryptoPanic -->
+        <rect x="40" y="535" width="110" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="95" y="557" fill="white" font-size="11" font-weight="600" text-anchor="middle">CryptoPanic</text>
+        <text x="95" y="573" fill="#94a3b8" font-size="8" text-anchor="middle">News Aggregator</text>
+
+        <!-- Etherscan -->
+        <rect x="170" y="535" width="110" height="50" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="225" y="557" fill="white" font-size="11" font-weight="600" text-anchor="middle">Etherscan</text>
+        <text x="225" y="573" fill="#94a3b8" font-size="8" text-anchor="middle">On-chain Data</text>
+
+        <!-- Alchemy -->
+        <rect x="40" y="595" width="110" height="30" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="95" y="614" fill="white" font-size="10" font-weight="600" text-anchor="middle">Alchemy / Infura</text>
+
+        <!-- X/Twitter API -->
+        <rect x="170" y="595" width="110" height="30" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="225" y="614" fill="white" font-size="10" font-weight="600" text-anchor="middle">X / Twitter API</text>
+
+        <!-- ============================================================
+             LAYER 3B: AI/ML LAYER
+             ============================================================ -->
+
+        <!-- AI/ML Boundary -->
+        <rect x="420" y="440" width="380" height="180" rx="12" fill="rgba(120, 53, 15, 0.08)" stroke="#fbbf24" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="432" y="458" fill="#fbbf24" font-size="10" font-weight="600">AI / ML LAYER</text>
+
+        <!-- Signal Engine -->
+        <rect x="440" y="470" width="160" height="60" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="520" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">Signal Engine</text>
+        <text x="520" y="508" fill="#fbbf24" font-size="8" text-anchor="middle">LSTM + Transformer Model</text>
+        <text x="520" y="522" fill="#94a3b8" font-size="7" text-anchor="middle">Python + PyTorch</text>
+
+        <!-- Sentiment Analyzer -->
+        <rect x="620" y="470" width="160" height="60" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="700" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">Sentiment Analyzer</text>
+        <text x="700" y="508" fill="#fbbf24" font-size="8" text-anchor="middle">FinBERT + Custom NLP</text>
+        <text x="700" y="522" fill="#94a3b8" font-size="7" text-anchor="middle">HuggingFace Transformers</text>
+
+        <!-- Feature Store -->
+        <rect x="440" y="545" width="160" height="50" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="520" y="567" fill="white" font-size="11" font-weight="600" text-anchor="middle">Feature Store</text>
+        <text x="520" y="583" fill="#fbbf24" font-size="8" text-anchor="middle">Technical Indicators</text>
+
+        <!-- Model Registry -->
+        <rect x="620" y="545" width="160" height="50" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="700" y="567" fill="white" font-size="11" font-weight="600" text-anchor="middle">Model Registry</text>
+        <text x="700" y="583" fill="#fbbf24" font-size="8" text-anchor="middle">W&B + MLflow</text>
+
+        <!-- ============================================================
+             LAYER 3C: DATABASE
+             ============================================================ -->
+
+        <!-- Database Boundary -->
+        <rect x="820" y="440" width="360" height="180" rx="12" fill="rgba(76, 29, 149, 0.08)" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="832" y="458" fill="#a78bfa" font-size="10" font-weight="600">DATABASE — PostgreSQL (Prisma ORM)</text>
+
+        <!-- Users Table -->
+        <rect x="840" y="470" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="890" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">Users</text>
+        <text x="890" y="508" fill="#a78bfa" font-size="8" text-anchor="middle">Auth + Profile</text>
+
+        <!-- Portfolio Table -->
+        <rect x="960" y="470" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1010" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">Portfolio</text>
+        <text x="1010" y="508" fill="#a78bfa" font-size="8" text-anchor="middle">Holdings</text>
+
+        <!-- Price History Table -->
+        <rect x="1080" y="470" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1130" y="492" fill="white" font-size="11" font-weight="600" text-anchor="middle">PriceHistory</text>
+        <text x="1130" y="508" fill="#a78bfa" font-size="8" text-anchor="middle">OHLCV Data</text>
+
+        <!-- Signals Table -->
+        <rect x="840" y="535" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="890" y="557" fill="white" font-size="11" font-weight="600" text-anchor="middle">Signals</text>
+        <text x="890" y="573" fill="#a78bfa" font-size="8" text-anchor="middle">AI Predictions</text>
+
+        <!-- News Cache Table -->
+        <rect x="960" y="535" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1010" y="557" fill="white" font-size="11" font-weight="600" text-anchor="middle">NewsCache</text>
+        <text x="1010" y="573" fill="#a78bfa" font-size="8" text-anchor="middle">Articles</text>
+
+        <!-- SentimentScores Table -->
+        <rect x="1080" y="535" width="100" height="50" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1130" y="557" fill="white" font-size="11" font-weight="600" text-anchor="middle">SentimentScores</text>
+        <text x="1130" y="573" fill="#a78bfa" font-size="8" text-anchor="middle">Analysis</text>
+
+        <!-- Redis Cache -->
+        <rect x="840" y="595" width="200" height="30" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="940" y="614" fill="white" font-size="10" font-weight="600" text-anchor="middle">Redis Cache (Upstash)</text>
+
+        <!-- Prisma Schema -->
+        <rect x="1060" y="595" width="120" height="30" rx="6" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="1120" y="614" fill="white" font-size="10" font-weight="600" text-anchor="middle">Prisma Schema</text>
+
+        <!-- ============================================================
+             ARROWS — Backend to Services
+             ============================================================ -->
+
+        <!-- Backend → External APIs -->
+        <line x1="100" y1="390" x2="95" y2="468" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-slate)"/>
+        <line x1="240" y1="390" x2="225" y2="468" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-slate)"/>
+
+        <!-- Backend → AI/ML -->
+        <line x1="380" y1="390" x2="520" y2="468" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+        <text x="440" y="430" fill="#94a3b8" font-size="8">Model Inference</text>
+
+        <!-- Backend → Database -->
+        <line x1="940" y1="390" x2="940" y2="468" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow-violet)"/>
+        <text x="955" y="430" fill="#94a3b8" font-size="8">Prisma ORM</text>
+
+        <!-- AI/ML ↔ Database -->
+        <line x1="800" y1="520" x2="838" y2="520" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrow-violet)"/>
+        <text x="815" y="514" fill="#94a3b8" font-size="7">Read/Write</text>
+
+        <!-- ============================================================
+             DEPLOYMENT INFO
+             ============================================================ -->
+
+        <!-- Vercel Badge -->
+        <rect x="420" y="660" width="380" height="50" rx="8" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="610" y="682" fill="white" font-size="11" font-weight="600" text-anchor="middle">🚀 DEPLOYMENT — Vercel</text>
+        <text x="610" y="700" fill="#94a3b8" font-size="9" text-anchor="middle">Next.js Runtime + Edge Functions + PostgreSQL on Supabase</text>
+
+        <!-- ============================================================
+             LEGEND
+             ============================================================ -->
+
+        <text x="20" y="680" fill="white" font-size="10" font-weight="600">Legend</text>
+
+        <rect x="20" y="692" width="16" height="10" rx="2" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1"/>
+        <text x="42" y="700" fill="#94a3b8" font-size="8">Frontend (Next.js + React)</text>
+
+        <rect x="20" y="708" width="16" height="10" rx="2" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+        <text x="42" y="716" fill="#94a3b8" font-size="8">Backend (API Routes)</text>
+
+        <rect x="20" y="724" width="16" height="10" rx="2" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="42" y="732" fill="#94a3b8" font-size="8">AI / ML Services</text>
+
+        <rect x="200" y="692" width="16" height="10" rx="2" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="222" y="700" fill="#94a3b8" font-size="8">Database (PostgreSQL)</text>
+
+        <rect x="200" y="708" width="16" height="10" rx="2" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1"/>
+        <text x="222" y="716" fill="#94a3b8" font-size="8">External APIs</text>
+
+        <rect x="200" y="724" width="16" height="10" rx="2" fill="rgba(136, 19, 55, 0.4)" stroke="#fb7185" stroke-width="1"/>
+        <text x="222" y="732" fill="#94a3b8" font-size="8">Security / Auth</text>
+
+        <rect x="380" y="692" width="16" height="10" rx="2" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1"/>
+        <text x="402" y="700" fill="#94a3b8" font-size="8">Real-time (WebSocket)</text>
+
+        <line x1="380" y1="714" x2="396" y2="714" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="402" y="717" fill="#94a3b8" font-size="8">Service Boundary</text>
+
+      </svg>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot cyan"></div>
+          <h3>Frontend Stack</h3>
+        </div>
+        <ul>
+          <li>• Next.js 14 (App Router)</li>
+          <li>• React 18 + TypeScript</li>
+          <li>• Tailwind CSS + shadcn/ui</li>
+          <li>• TanStack Query (data fetching)</li>
+          <li>• Recharts / TradingView Lite</li>
+          <li>• NextAuth.js (authentication)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot emerald"></div>
+          <h3>Backend & API</h3>
+        </div>
+        <ul>
+          <li>• Next.js API Routes</li>
+          <li>• Prisma ORM + PostgreSQL</li>
+          <li>• Zod (schema validation)</li>
+          <li>• Rate limiting middleware</li>
+          <li>• WebSocket for real-time feeds</li>
+          <li>• Cron jobs for data sync</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot amber"></div>
+          <h3>AI / ML Pipeline</h3>
+        </div>
+        <ul>
+          <li>• LSTM + Transformer (price prediction)</li>
+          <li>• FinBERT (sentiment analysis)</li>
+          <li>• Technical indicators feature store</li>
+          <li>• W&B experiment tracking</li>
+          <li>• Jupyter notebooks (model dev)</li>
+          <li>• Model registry + versioning</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Data Sources</h3>
+        </div>
+        <ul>
+          <li>• CoinGecko (free price API)</li>
+          <li>• Binance WebSocket (real-time)</li>
+          <li>• CryptoPanic (news aggregation)</li>
+          <li>• Etherscan / Alchemy (on-chain)</li>
+          <li>• X/Twitter API (sentiment)</li>
+          <li>• Redis cache (Upstash)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot rose"></div>
+          <h3>4 Core Pillars</h3>
+        </div>
+        <ul>
+          <li>• 📊 Price & Portfolio Tracker</li>
+          <li>• 🤖 AI Signal Trading</li>
+          <li>• 📰 News & Sentiment Analysis</li>
+          <li>• ⛓️ On-chain Analytics</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot orange"></div>
+          <h3>Deployment</h3>
+        </div>
+        <ul>
+          <li>• Vercel (frontend + API)</li>
+          <li>• Supabase (PostgreSQL)</li>
+          <li>• Upstash (Redis)</li>
+          <li>• GitHub (source control)</li>
+          <li>• Vercel Analytics</li>
+          <li>• Environment-based config</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="footer">
+      GitPortal Crypto AI Tracker • Architecture v1.0 • Generated by GitPortal AI Agent
+    </p>
+  </div>
+</body>
+</html>
