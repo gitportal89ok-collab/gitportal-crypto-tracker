@@ -91,3 +91,33 @@ export interface SentimentScore {
   coinIds: string[]
   createdAt: string
 }
+
+export interface OnChainData {
+  id: string
+  chain: string
+  address: string
+  balance?: number
+  txCount?: number
+  lastActivity?: string
+  metadata?: Record<string, any>
+  createdAt: string
+  updatedAt: string
+}
+
+export interface WalletBalance {
+  address: string
+  balance: string
+  balanceUsd?: number
+  tokenCount?: number
+}
+
+export interface Transaction {
+  hash: string
+  from: string
+  to: string
+  value: string
+  gas: string
+  gasPrice: string
+  timestamp: number
+  isError: string
+}
