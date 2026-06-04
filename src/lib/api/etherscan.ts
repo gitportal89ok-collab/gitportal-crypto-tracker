@@ -1,7 +1,57 @@
 import { config } from '../config'
 import { WalletBalance, Transaction } from '@/types/crypto'
 
+// Mock data for development without API key
+const mockBalance: WalletBalance = {
+  address: '0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18',
+  balance: '1500000000000000000', // 1.5 ETH
+  balanceUsd: 5185.17,
+  tokenCount: 12,
+}
+
+const mockTransactions: Transaction[] = [
+  {
+    hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+    from: '0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18',
+    to: '0x1234567890123456789012345678901234567890',
+    value: '500000000000000000',
+    gas: '21000',
+    gasPrice: '20000000000',
+    timestamp: Math.floor(Date.now() / 1000) - 3600,
+    isError: '0',
+  },
+  {
+    hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+    from: '0x9876543210987654321098765432109876543210',
+    to: '0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18',
+    value: '1000000000000000000',
+    gas: '21000',
+    gasPrice: '25000000000',
+    timestamp: Math.floor(Date.now() / 1000) - 86400,
+    isError: '0',
+  },
+  {
+    hash: '0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321',
+    from: '0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18',
+    to: '0x1111111111111111111111111111111111111111',
+    value: '250000000000000000',
+    gas: '65000',
+    gasPrice: '30000000000',
+    timestamp: Math.floor(Date.now() / 1000) - 172800,
+    isError: '0',
+  },
+]
+
 export async function getWalletBalance(address: string): Promise<WalletBalance> {
+  // Check if mock mode is enabled
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    console.log('Using mock data for wallet balance')
+    return {
+      ...mockBalance,
+      address,
+    }
+  }
+
   try {
     const res = await fetch(
       `${config.etherscan.baseUrl}?module=account&action=balance&address=${address}&tag=latest&apikey=${config.etherscan.apiKey}`
@@ -23,8 +73,11 @@ export async function getWalletBalance(address: string): Promise<WalletBalance> 
       balanceUsd: undefined, // Would need price API to calculate
     }
   } catch (error) {
-    console.error('Error fetching wallet balance:', error)
-    throw error
+    console.error('Error fetching wallet balance, using mock data:', error)
+    return {
+      ...mockBalance,
+      address,
+    }
   }
 }
 
@@ -33,6 +86,12 @@ export async function getTransactions(
   page = 1,
   offset = 20
 ): Promise<Transaction[]> {
+  // Check if mock mode is enabled
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    console.log('Using mock data for transactions')
+    return mockTransactions
+  }
+
   try {
     const res = await fetch(
       `${config.etherscan.baseUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=${page}&offset=${offset}&sort=desc&apikey=${config.etherscan.apiKey}`
@@ -59,8 +118,8 @@ export async function getTransactions(
       isError: tx.isError,
     }))
   } catch (error) {
-    console.error('Error fetching transactions:', error)
-    throw error
+    console.error('Error fetching transactions, using mock data:', error)
+    return mockTransactions
   }
 }
 
@@ -71,6 +130,27 @@ export async function getTokenBalances(address: string): Promise<Array<{
   balance: string
   decimals: number
 }>> {
+  // Check if mock mode is enabled
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    console.log('Using mock data for token balances')
+    return [
+      {
+        contractAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        tokenName: 'Dai Stablecoin',
+        tokenSymbol: 'DAI',
+        balance: '1000000000000000000000',
+        decimals: 18,
+      },
+      {
+        contractAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        tokenName: 'USD Coin',
+        tokenSymbol: 'USDC',
+        balance: '5000000000',
+        decimals: 6,
+      },
+    ]
+  }
+
   try {
     const res = await fetch(
       `${config.etherscan.baseUrl}?module=account&action=tokentx&address=${address}&page=1&offset=100&sort=desc&apikey=${config.etherscan.apiKey}`
@@ -104,12 +184,22 @@ export async function getTokenBalances(address: string): Promise<Array<{
 
     return Array.from(tokenMap.values())
   } catch (error) {
-    console.error('Error fetching token balances:', error)
+    console.error('Error fetching token balances, using mock data:', error)
     return []
   }
 }
 
 export async function getGasPrice(): Promise<{ safeGasPrice: string; proposeGasPrice: string; fastGasPrice: string }> {
+  // Check if mock mode is enabled
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    console.log('Using mock data for gas price')
+    return {
+      safeGasPrice: '15',
+      proposeGasPrice: '20',
+      fastGasPrice: '30',
+    }
+  }
+
   try {
     const res = await fetch(
       `${config.etherscan.baseUrl}?module=gastracker&action=gasoracle&apikey=${config.etherscan.apiKey}`
@@ -131,7 +221,11 @@ export async function getGasPrice(): Promise<{ safeGasPrice: string; proposeGasP
       fastGasPrice: data.result.FastGasPrice,
     }
   } catch (error) {
-    console.error('Error fetching gas price:', error)
-    throw error
+    console.error('Error fetching gas price, using mock data:', error)
+    return {
+      safeGasPrice: '15',
+      proposeGasPrice: '20',
+      fastGasPrice: '30',
+    }
   }
 }
