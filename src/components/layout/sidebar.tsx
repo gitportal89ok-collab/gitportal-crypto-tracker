@@ -8,6 +8,7 @@ import {
   Briefcase,
   Brain,
   Newspaper,
+  TrendingUp,
   Link2,
   Settings,
 } from 'lucide-react'
@@ -16,7 +17,8 @@ const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
   { href: '/signals', label: 'AI Signals', icon: Brain },
-  { href: '/news', label: 'News & Sentiment', icon: Newspaper },
+  { href: '/news', label: 'News', icon: Newspaper },
+  { href: '/sentiment', label: 'Sentiment', icon: TrendingUp },
   { href: '/onchain', label: 'On-chain', icon: Link2 },
   { href: '/settings', label: 'Settings', icon: Settings },
 ]

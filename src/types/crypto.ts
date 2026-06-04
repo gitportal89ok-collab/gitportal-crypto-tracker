@@ -69,3 +69,25 @@ export interface SignalResponse {
   signals: Signal[]
   coinId?: string
 }
+
+export interface NewsArticle {
+  id: string
+  title: string
+  content?: string
+  source: string
+  url: string
+  coinIds: string[]
+  publishedAt: string
+  createdAt: string
+  sentiment?: 'positive' | 'negative' | 'neutral'
+}
+
+export interface SentimentScore {
+  id: string
+  source: string
+  content: string
+  sentiment: 'positive' | 'negative' | 'neutral'
+  score: number
+  coinIds: string[]
+  createdAt: string
+}
