@@ -8,7 +8,7 @@ import { WalletTracker } from '@/components/wallet-tracker'
 import { TxHistory } from '@/components/tx-history'
 import { Header } from '@/components/layout/header'
 import { Sidebar } from '@/components/layout/sidebar'
-import { RefreshCw, Link2, Wallet, Gas, ArrowUpDown } from 'lucide-react'
+import { RefreshCw, Link2, Wallet, Fuel, ArrowUpDown } from 'lucide-react'
 
 export default function OnChainPage() {
   const { data: session, status } = useSession()
@@ -130,7 +130,7 @@ export default function OnChainPage() {
                   <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
                     <div className="mb-4 flex items-center gap-3">
                       <div className="rounded-lg bg-amber-50 p-2">
-                        <Gas className="h-5 w-5 text-amber-500" />
+                        <Fuel className="h-5 w-5 text-amber-500" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">

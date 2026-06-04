@@ -2,7 +2,7 @@
 
 import { SentimentScore } from '@/types/crypto'
 import { cn } from '@/lib/utils'
-import { Twitter, MessageSquare, Newspaper, TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { AtSign, MessageSquare, Newspaper, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 interface SocialFeedProps {
   items: SentimentScore[]
@@ -12,7 +12,7 @@ export function SocialFeed({ items }: SocialFeedProps) {
   const getSourceIcon = (source: string) => {
     switch (source.toLowerCase()) {
       case 'twitter':
-        return Twitter
+        return AtSign
       case 'reddit':
         return MessageSquare
       default:
