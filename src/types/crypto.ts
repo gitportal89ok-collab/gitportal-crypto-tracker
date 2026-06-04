@@ -52,3 +52,20 @@ export interface PriceHistory {
   market_caps: [number, number][]
   total_volumes: [number, number][]
 }
+
+export interface Signal {
+  id: string
+  coinId: string
+  coinSymbol: string
+  signal: 'BUY' | 'SELL' | 'HOLD'
+  confidence: number
+  price: number
+  model: string
+  features: Record<string, number>
+  createdAt: string
+}
+
+export interface SignalResponse {
+  signals: Signal[]
+  coinId?: string
+}
