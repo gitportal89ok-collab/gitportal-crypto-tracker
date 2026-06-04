@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { TrendingUp, LogOut, User } from 'lucide-react'
 
 export function Header() {
@@ -33,6 +34,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {session ? (
             <>
               <span className="text-sm text-zinc-500 hidden sm:inline">
