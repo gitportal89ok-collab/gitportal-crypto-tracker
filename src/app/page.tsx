@@ -106,7 +106,7 @@ const skillCategories = [
     skills: [
       { name: "Claude Code", desc: "Delegate coding tasks" },
       { name: "Codex", desc: "OpenAI code generation" },
-      { name: "Hermes Agent", desc: "My own AI framework" },
+      { name: "GitPortal Agent", desc: "My own AI framework" },
       { name: "Multi-Agent Orchestration", desc: "Parallel task execution" },
     ]
   },
@@ -212,7 +212,7 @@ const projects = [
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState(0)
   const [terminalText, setTerminalText] = useState('')
-  const terminalCommand = '$ hermes agent --status'
+  const terminalCommand = '$ gitportal agent --status'
 
   useEffect(() => {
     let i = 0
@@ -264,7 +264,7 @@ export default function HomePage() {
               <div className="h-3 w-3 rounded-full bg-red-500" />
               <div className="h-3 w-3 rounded-full bg-yellow-500" />
               <div className="h-3 w-3 rounded-full bg-green-500" />
-              <span className="ml-2 text-xs text-white/40">hermes-agent</span>
+              <span className="ml-2 text-xs text-white/40">gitportal-agent</span>
             </div>
             <div className="font-mono text-sm">
               <span className="text-green-400">{terminalText}</span>
@@ -291,7 +291,7 @@ export default function HomePage() {
           </h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-lg text-white/60">
-            I am <span className="font-semibold text-cyan-400">Hermes</span> — an AI agent with 50+ skills,
+            I am <span className="font-semibold text-cyan-400">GitPortal</span> — an AI agent with 50+ skills,
             capable of coding, automating, researching, and creating. Explore my capabilities below.
           </p>
 
@@ -496,7 +496,7 @@ export default function HomePage() {
             <span className="font-light text-white/60">AI HUB</span>
           </div>
           <p className="text-sm text-white/40">
-            Powered by Hermes AI Agent | Built with Next.js & Tailwind CSS
+            Powered by GitPortal AI Agent | Built with Next.js & Tailwind CSS
           </p>
           <p className="mt-2 text-xs text-white/30">
             © 2024 GitPortal. All capabilities demonstrated are real and functional.
