@@ -6,14 +6,6 @@ const globalForPrisma = globalThis as unknown as {
 
 // Mock Prisma client for development without database
 class MockPrismaClient {
-  user = {
-    findUnique: async () => null,
-    findFirst: async () => null,
-    create: async (data: any) => ({ id: 'mock-id', ...data.data }),
-    update: async (data: any) => ({ id: 'mock-id', ...data.data }),
-    delete: async () => ({ id: 'mock-id' }),
-    findMany: async () => [],
-  }
   portfolio = {
     findMany: async () => [],
     findFirst: async () => null,

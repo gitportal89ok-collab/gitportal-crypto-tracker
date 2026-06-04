@@ -1,17 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { NewsArticle, CoinPrice } from '@/types/crypto'
 import { NewsCard } from '@/components/news-card'
 import { Header } from '@/components/layout/header'
 import { Sidebar } from '@/components/layout/sidebar'
-import { RefreshCw, Newspaper, Filter } from 'lucide-react'
+import { RefreshCw, Newspaper } from 'lucide-react'
 
 export default function NewsPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
   const [news, setNews] = useState<NewsArticle[]>([])
   const [coins, setCoins] = useState<CoinPrice[]>([])
   const [selectedCoin, setSelectedCoin] = useState<string>('')
@@ -19,17 +15,9 @@ export default function NewsPage() {
   const [filter, setFilter] = useState<'all' | 'positive' | 'negative' | 'neutral'>('all')
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login')
-    }
-  }, [status, router])
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      fetchNews()
-      fetchCoins()
-    }
-  }, [status, selectedCoin])
+    fetchNews()
+    fetchCoins()
+  }, [selectedCoin])
 
   const fetchNews = async () => {
     setLoading(true)
@@ -61,7 +49,7 @@ export default function NewsPage() {
     ? news
     : news.filter((article) => article.sentiment === filter)
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <RefreshCw className="h-8 w-8 animate-spin text-emerald-500" />

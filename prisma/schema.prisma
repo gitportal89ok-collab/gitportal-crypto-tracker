@@ -9,20 +9,9 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id           String      @id @default(cuid())
-  email        String      @unique
-  name         String?
-  passwordHash String
-  portfolio    Portfolio[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-}
-
 model Portfolio {
   id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @default("anonymous")
   coinId      String
   coinSymbol  String
   coinName    String
@@ -31,7 +20,6 @@ model Portfolio {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@unique([userId, coinId])
   @@index([userId])
 }
 

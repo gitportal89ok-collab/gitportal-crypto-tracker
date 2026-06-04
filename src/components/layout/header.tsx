@@ -1,14 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/react'
-import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { TrendingUp, LogOut, User } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 
 export function Header() {
-  const { data: session } = useSession()
-
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
       <div className="flex h-14 items-center justify-between px-4 lg:px-6">
@@ -35,26 +31,6 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          {session ? (
-            <>
-              <span className="text-sm text-zinc-500 hidden sm:inline">
-                <User className="inline h-4 w-4 mr-1" />
-                {session.user?.name || session.user?.email}
-              </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => signOut()}
-                className="text-zinc-500 hover:text-zinc-900"
-              >
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </>
-          ) : (
-            <Link href="/auth/login">
-              <Button size="sm">Sign In</Button>
-            </Link>
-          )}
         </div>
       </div>
     </header>

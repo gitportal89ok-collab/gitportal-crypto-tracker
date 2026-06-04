@@ -1,18 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { Signal, CoinPrice } from '@/types/crypto'
 import { SignalCard } from '@/components/signal-card'
 import { SignalHistory } from '@/components/signal-history'
 import { Header } from '@/components/layout/header'
 import { Sidebar } from '@/components/layout/sidebar'
-import { RefreshCw, Filter, Brain } from 'lucide-react'
+import { RefreshCw, Brain } from 'lucide-react'
 
 export default function SignalsPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
   const [signals, setSignals] = useState<Signal[]>([])
   const [signalHistory, setSignalHistory] = useState<Signal[]>([])
   const [coins, setCoins] = useState<CoinPrice[]>([])
@@ -21,17 +17,9 @@ export default function SignalsPage() {
   const [training, setTraining] = useState(false)
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login')
-    }
-  }, [status, router])
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      fetchSignals()
-      fetchCoins()
-    }
-  }, [status])
+    fetchSignals()
+    fetchCoins()
+  }, [])
 
   useEffect(() => {
     if (selectedCoin) {
@@ -94,7 +82,7 @@ export default function SignalsPage() {
     }
   }
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <RefreshCw className="h-8 w-8 animate-spin text-emerald-500" />

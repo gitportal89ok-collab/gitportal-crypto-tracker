@@ -1,53 +1,52 @@
-# 🚀 Deploy GitPortal Crypto Tracker ke Vercel
+# Deploy GitPortal Crypto Tracker to Vercel
 
-## Langkah-langkah (3 menit saja!)
+## Steps (3 minutes!)
 
-### Step 1: Buka Vercel
-Klik: https://vercel.com/login
+### Step 1: Open Vercel
+Click: https://vercel.com/login
 
 ### Step 2: Login with GitHub
-- Klik "Continue with GitHub"
-- Login pakai:
+- Click "Continue with GitHub"
+- Login with:
   - Username: gitportal89ok-collab
   - Password: (password GitHub Bos Lukman)
 
 ### Step 3: Import Project
-- Setelah login, buka: https://vercel.com/new
-- Cari repository: **gitportal-crypto-tracker**
-- Klik **Import**
+- After login, open: https://vercel.com/new
+- Search for repository: **gitportal-crypto-tracker**
+- Click **Import**
 
 ### Step 4: Configure & Deploy
-- Framework: Next.js (otomatis)
+- Framework: Next.js (automatic)
 - Root Directory: ./
 - Build Command: npm run build (default)
 - Output Directory: .next (default)
 
-### Step 5: Tambah Environment Variables
-Klik **Environment Variables** dan tambahkan:
+### Step 5: Add Environment Variables
+Click **Environment Variables** and add:
 
 | Name | Value |
 |------|-------|
-| NEXTAUTH_SECRET | sD9ak3srJlJ50juwKzgXdkNccs8ZvpWbgY0vRCpnilE= |
-| NEXTAUTH_URL | https://gitportal-crypto-tracker.vercel.app |
 | NEXT_PUBLIC_MOCK_MODE | true |
 
 ### Step 6: Deploy!
-Klik **Deploy** → Tunggu 1-2 menit → **SELESAI!** 🎉
+Click **Deploy** - Wait 1-2 minutes - DONE!
 
 ---
 
-## Hasil Deploy
-Setelah deploy, aplikasi bisa diakses di:
+## Deploy Result
+After deploy, the app is accessible at:
 https://gitportal-crypto-tracker.vercel.app
 
-## Fitur yang Aktif (Mock Mode)
-- ✅ Dashboard dengan 10 crypto coins
-- ✅ Portfolio tracking
-- ✅ News feed (mock articles)
-- ✅ Sentiment analysis
-- ✅ On-chain analytics (mock data)
-- ✅ Real-time WebSocket
+## Features (Mock Mode)
+- Dashboard with 10 crypto coins
+- Portfolio tracking
+- News feed (mock articles)
+- Sentiment analysis
+- On-chain analytics (mock data)
+- Real-time WebSocket
+- Public access - no login required
 
 ---
 
-*Dibuat oleh GitPortal AI Agent*
+*Made by GitPortal AI Agent*

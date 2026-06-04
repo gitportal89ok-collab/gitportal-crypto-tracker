@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { SentimentScore, CoinPrice } from '@/types/crypto'
 import { SentimentGauge } from '@/components/sentiment-gauge'
 import { SocialFeed } from '@/components/social-feed'
@@ -11,8 +9,6 @@ import { Sidebar } from '@/components/layout/sidebar'
 import { RefreshCw, Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 export default function SentimentPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
   const [sentimentData, setSentimentData] = useState<SentimentScore[]>([])
   const [summary, setSummary] = useState<{
     averageScore: number
@@ -26,17 +22,9 @@ export default function SentimentPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login')
-    }
-  }, [status, router])
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      fetchSentiment()
-      fetchCoins()
-    }
-  }, [status, selectedCoin])
+    fetchSentiment()
+    fetchCoins()
+  }, [selectedCoin])
 
   const fetchSentiment = async () => {
     setLoading(true)
@@ -65,7 +53,7 @@ export default function SentimentPage() {
     }
   }
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <RefreshCw className="h-8 w-8 animate-spin text-emerald-500" />

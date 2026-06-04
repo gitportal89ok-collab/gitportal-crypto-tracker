@@ -1,8 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { WalletBalance, Transaction } from '@/types/crypto'
 import { WalletTracker } from '@/components/wallet-tracker'
 import { TxHistory } from '@/components/tx-history'
@@ -11,19 +9,11 @@ import { Sidebar } from '@/components/layout/sidebar'
 import { RefreshCw, Link2, Wallet, Fuel, ArrowUpDown } from 'lucide-react'
 
 export default function OnChainPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
   const [balance, setBalance] = useState<WalletBalance | null>(null)
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [gasPrice, setGasPrice] = useState<{ safeGasPrice: string; proposeGasPrice: string; fastGasPrice: string } | null>(null)
   const [loading, setLoading] = useState(false)
   const [currentAddress, setCurrentAddress] = useState('')
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login')
-    }
-  }, [status, router])
 
   const handleAddressSubmit = async (address: string) => {
     setLoading(true)
@@ -48,14 +38,6 @@ export default function OnChainPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (status === 'loading') {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <RefreshCw className="h-8 w-8 animate-spin text-emerald-500" />
-      </div>
-    )
   }
 
   return (
@@ -142,19 +124,19 @@ export default function OnChainPage() {
 
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-600 dark:text-zinc-400">🐌 Safe</span>
+                        <span className="text-sm text-zinc-600 dark:text-zinc-400">Safe</span>
                         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                           {gasPrice.safeGasPrice} Gwei
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-600 dark:text-zinc-400">🚗 Standard</span>
+                        <span className="text-sm text-zinc-600 dark:text-zinc-400">Standard</span>
                         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                           {gasPrice.proposeGasPrice} Gwei
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-600 dark:text-zinc-400">🚀 Fast</span>
+                        <span className="text-sm text-zinc-600 dark:text-zinc-400">Fast</span>
                         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                           {gasPrice.fastGasPrice} Gwei
                         </span>
@@ -183,7 +165,7 @@ export default function OnChainPage() {
                       className="flex items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                     >
                       View on Etherscan
-                      <ExternalLink className="h-4 w-4" />
+                      <Link2 className="h-4 w-4" />
                     </a>
                     <a
                       href={`https://ethplorer.io/address/${currentAddress}`}
@@ -192,7 +174,7 @@ export default function OnChainPage() {
                       className="flex items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                     >
                       View on Ethplorer
-                      <ExternalLink className="h-4 w-4" />
+                      <Link2 className="h-4 w-4" />
                     </a>
                   </div>
                 </div>
